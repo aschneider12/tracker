@@ -3,6 +3,25 @@
         <h1>
             <img src="../assets/logo.png" alt="">
         </h1>
+
+        <nav class="panel mt-5">
+            <ul>
+                <li>
+                    <router-link to="/" class="link">
+                        <i class="fas fa-tas"></i>
+                        Tarefas
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/projetos" class="link">
+                        <i class="fas fa-tas"></i>
+                        Projetos
+                    </router-link>
+                </li>
+
+            </ul>
+        </nav>
+
         <button class="button" @click="alterarTema">
             {{ textoBotao }}
         </button>
@@ -13,20 +32,20 @@
 
 export default {
 
-    data(){
+    data() {
         return {
             modoEscuroAtivo: false
         }
     },
-    methods:{
-        alterarTema(){
+    methods: {
+        alterarTema() {
             this.modoEscuroAtivo = !this.modoEscuroAtivo;
             this.$emit('aoAlterarTema', this.modoEscuroAtivo);
         }
     },
     computed: {
-        textoBotao(){
-            if(this.modoEscuroAtivo){
+        textoBotao() {
+            if (this.modoEscuroAtivo) {
                 return "Desativar modo escuro"
             } else {
                 return "Ativar modo escuro"
@@ -54,5 +73,21 @@ header {
         padding: 2.5rem;
         height: auto;
     }
+}
+
+.panel li {
+    margin: 8px 0;
+}
+
+.link {
+    color: #FFF;
+}
+
+.link:hover {
+    color: #FAF0CA;
+}
+
+.link.router-link-active {
+    color: #FAF0CA;
 }
 </style>

@@ -1,12 +1,15 @@
 <template>
 
   <main class="columns is-gapless is-multiline" :class="{ 'modo-escuro': modoEscuroAtivo }">
+
     <div class="column is-one-quarter">
       <BarraLateral @aoAlterarTema="alterarTemaApp" />
     </div>
+
     <div class="column is-three-quarter conteudo">
-      <FormularioPrincipal :onAoSalvarTarefa="salvarTarefa" />
-      <ListaTarefas :tarefas="tarefas" />
+      <NotificacaoGlobal />
+      <RouterView />
+      <!--esse cara indica onde o router vai renderizar o comnponente-->
     </div>
   </main>
 
@@ -14,10 +17,8 @@
 
 <script setup lang="ts">
 
-import BarraLateral from './components/BarraLateral.vue';
-import FormularioPrincipal from './components/FormularioPrincipal.vue';
-import ListaTarefas from './components/ListaTarefas.vue';
-import type ITarefa from './interfaces/ITarefa';
+import BarraLateral from '@/components/BarraLateral.vue';
+import NotificacaoGlobal from '@/components/NotificacaoGlobal.vue';
 
 </script>
 
@@ -25,11 +26,6 @@ import type ITarefa from './interfaces/ITarefa';
 
 export default {
   methods: {
-    salvarTarefa(tarefa: ITarefa) {
-
-      console.log('salvandoTarefa', tarefa)
-      this.tarefas.push(tarefa);
-    },
     alterarTemaApp(modoEscuroAtivo: boolean) {
       //console.log(modoEscuroAtivo)
       this.modoEscuroAtivo = modoEscuroAtivo;
@@ -37,7 +33,6 @@ export default {
   },
   data() {
     return {
-      tarefas: [] as ITarefa[],
       modoEscuroAtivo: false
     }
   }

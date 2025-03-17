@@ -14,8 +14,8 @@
 
 <script lang="ts">
 
-import ButtonTarefa from './ButtonTarefa.vue';
-import CronometroTarefa from './CronometroTarefa.vue';
+import ButtonTarefa from '@/views/tarefas/ButtonTarefa.vue';
+import CronometroTarefa from '@/views/tarefas/CronometroTarefa.vue';
 
 export default {
     components: {

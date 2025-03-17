@@ -2,7 +2,7 @@
     <div class="lista has-text-weight-bold">
 
         <BoxTarefa v-if="tarefas.length == 0">
-            Ainda não tem tarefa, trabalha vagabundo
+            Ainda não tem tarefa, vai trabalha vagabundo!
         </BoxTarefa>
 
         <TarefaCronometrada v-for="(t, index) in tarefas" v-bind:key="index" :tarefa="t"></TarefaCronometrada>
@@ -11,9 +11,9 @@
 <script lang="ts">
 
 import type ITarefa from '@/interfaces/ITarefa';
-import TarefaCronometrada from './TarefaCronometrada.vue';
+import TarefaCronometrada from '@/views/tarefas/TarefaCronometrada.vue';
+import BoxTarefa from '@/views/tarefas/BoxTarefa.vue';
 import type { PropType } from 'vue';
-import BoxTarefa from './BoxTarefa.vue';
 
 export default {
     props: {
@@ -22,11 +22,6 @@ export default {
     components: {
         TarefaCronometrada,
         BoxTarefa
-    },
-    data() {
-        return {
-            tarefass: [] as ITarefa[]
-        }
     }
 }
 </script>

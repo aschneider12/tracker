@@ -1,11 +1,14 @@
 <template>
     <BoxTarefa>
         <div class="columns">
-            <div class="column is-7">
+            <div class="column is-5">
                 {{ tarefa.texto || 'Tarefa sem descrição'}}
             </div>
             <div class="column">
-                <CronometroTarefa :tempo-em-segundos="tarefa.duracaoEmSegundos"/>
+                <CronometroTarefa :tempoEmSegundos="tarefa.duracaoEmSegundos"/>
+            </div>
+            <div class="column is-4">
+                {{ tarefa.projeto.nome }}
             </div>
         </div>
     </BoxTarefa>
@@ -14,9 +17,9 @@
 <script lang="ts">
 
 import type ITarefa from '@/interfaces/ITarefa';
-import CronometroTarefa from './CronometroTarefa.vue';
+import CronometroTarefa from '@/views/tarefas/CronometroTarefa.vue';
 import type { PropType } from 'vue';
-import BoxTarefa from './BoxTarefa.vue';
+import BoxTarefa from '@/views/tarefas/BoxTarefa.vue';
 
 export default {
     props: {
