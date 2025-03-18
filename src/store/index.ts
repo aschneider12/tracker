@@ -1,12 +1,14 @@
 import type IProjeto from "@/interfaces/IProjeto";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
 import type { InjectionKey } from "vue";
-import { ADICIONAR_PROJETO, ADICIONAR_TAREFA, ALTERAR_PROJETO, ALTERAR_TAREFA, EXCLUIR_PROJETO, EXCLUIR_TAREFA } from "./TipoMutations";
+import { ADICIONAR_PROJETO, ADICIONAR_TAREFA, ALTERAR_PROJETO, ALTERAR_TAREFA, EXCLUIR_PROJETO, EXCLUIR_TAREFA, NOTIFICAR } from "./TipoMutations";
 import type ITarefa from "@/interfaces/ITarefa";
+import { TipoNotificacao, type INotificacao } from "@/interfaces/INotificacao";
 
 export interface Estado {
     tarefas : ITarefa[],
-    projetos: IProjeto[]
+    projetos: IProjeto[],
+    notificacoes : INotificacao[]
 }
 
 export const key: InjectionKey<Store<Estado>> = Symbol()
@@ -25,7 +27,8 @@ export const store = createStore<Estado> ({
                 texto : 'Tarefa pre loaded',
                 projeto : { id : '01', nome: 'Vuex' }
             }
-        ]
+        ],
+        notificacoes : []
     },
     mutations: {
         [ADICIONAR_PROJETO](state , nomeDoProjeto: string) {
@@ -55,6 +58,14 @@ export const store = createStore<Estado> ({
             console.log(state.tarefas)
             console.log('salvando tarefa no store')
             state.tarefas.push(tarefa)
+        },
+        [NOTIFICAR](state, novaNotificacao: INotificacao) {
+            novaNotificacao.id = new Date().getTime();
+            state.notificacoes.push(novaNotificacao);
+
+            setTimeout(() => {
+                state.notificacoes = state.notificacoes.filter(ntf => ntf.id != novaNotificacao.id);
+            }, 3000)
         }
         // [ALTERAR_TAREFA](state , tarefa: ITarefa) {
             

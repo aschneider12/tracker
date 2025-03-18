@@ -1,28 +1,14 @@
 <template>
 
     <div class="notificacoes">
-        <article class="message is-success">
+        <article class="message"
+        :class="contexto[ntf.tipo]"
+        v-for="ntf in notificacoes" :key="ntf.id">
             <div class="message-header">
-                atencao success
+                {{ ntf.titulo }}
             </div>
             <div class="message-body">
-                aqui vai texto da notificacao
-            </div>
-        </article>
-        <article class="message is-warning">
-            <div class="message-header">
-                atencao warning
-            </div>
-            <div class="message-body">
-                aqui vai texto da notificacao
-            </div>
-        </article>
-        <article class="message is-danger">
-            <div class="message-header">
-                atencao danger
-            </div>
-            <div class="message-body">
-                aqui vai texto da notificacao
+                {{ntf.texto }}
             </div>
         </article>
     </div>
@@ -30,8 +16,26 @@
 </template>
 
 <script lang="ts">
-export default {
+import { computed } from 'vue'
+import { useStore } from '@/store';
+import { TipoNotificacao } from '@/interfaces/INotificacao';
 
+export default {
+    data() {
+        return {
+            contexto: {
+                [TipoNotificacao.SUCCESS] : 'is-success',
+                [TipoNotificacao.WARN] : 'is-warning',
+                [TipoNotificacao.ERROR] : 'is-danger'
+            }
+        }
+    },
+    setup() {
+        const store = useStore()
+        return {
+            notificacoes: computed(() => store.state.notificacoes)
+        }
+    }
 }
 
 </script>

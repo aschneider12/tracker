@@ -30,6 +30,8 @@
 import TemporizadorTarefa from '@/views/tarefas/TemporizadorTarefa.vue';
 import { useStore } from "@/store";
 import { computed } from "vue";
+import { NOTIFICAR } from '@/store/TipoMutations';
+import { TipoNotificacao } from '@/interfaces/INotificacao';
 
 export default {
     components: {
@@ -50,8 +52,15 @@ export default {
             console.log('Chamando pra salvar');
             
            const projetoEncontrado = this.projetos.find((proj: { id: string; }) => (proj.id == this.idProjeto));
-
-           console.log('Encontrado', projetoEncontrado);
+          
+           if(!projetoEncontrado) { 
+                this.store.commit(NOTIFICAR, {
+                    titulo : 'Opa!',
+                    texto : 'Informe o projeto',
+                    tipo: TipoNotificacao.WARN
+                })
+                return;
+            }
 
             //new ITarefa
             this.$emit('aoSalvarTarefa',  {

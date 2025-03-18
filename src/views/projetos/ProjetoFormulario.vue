@@ -18,7 +18,9 @@
 
 import { useStore } from "@/store";
 import { computed } from "vue";
-import { ALTERAR_PROJETO, ADICIONAR_PROJETO } from "@/store/TipoMutations";
+import { ALTERAR_PROJETO, ADICIONAR_PROJETO, NOTIFICAR } from "@/store/TipoMutations";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
+
 export default {
     props : {
         id : {
@@ -50,8 +52,15 @@ export default {
 
                 this.store.commit(ADICIONAR_PROJETO, this.nomeDoProjeto);
             }
+            
             this.nomeDoProjeto = '';
-         
+            
+            this.store.commit(NOTIFICAR, {
+                titulo: 'Novo projeto adicionado',
+                texto : 'Pronto, projeto disponível',
+                tipo: TipoNotificacao.SUCCESS
+            });
+
             this.$router.push('/projetos');
         }
     },
