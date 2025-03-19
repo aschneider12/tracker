@@ -32,6 +32,7 @@ import { useStore } from "@/store";
 import { computed } from "vue";
 import { NOTIFICAR } from '@/store/TipoMutations';
 import { TipoNotificacao } from '@/interfaces/INotificacao';
+import notificador from '@/hooks/notificador';
 
 export default {
     components: {
@@ -69,6 +70,9 @@ export default {
                 projeto: projetoEncontrado
             })
             console.log(tempoDecorrido, this.descricao)
+
+            this.notificar(TipoNotificacao.WARN, 'Salva', 'Tarefa encerrada!')
+            
             this.descricao = '';
         }
     },
@@ -77,8 +81,10 @@ export default {
     ],
     setup() {
         const store = useStore()
+        const { notificar } = notificador()
         return {
             store,
+            notificar,
             projetos : computed(() => store.state.projetos)
         }
     

@@ -18,8 +18,9 @@
 
 import { useStore } from "@/store";
 import { computed } from "vue";
-import { ALTERAR_PROJETO, ADICIONAR_PROJETO, NOTIFICAR } from "@/store/TipoMutations";
+import { ALTERAR_PROJETO, ADICIONAR_PROJETO } from "@/store/TipoMutations";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
+import { notificacaoMixin } from "@/mixins/notificar";
 
 export default {
     props : {
@@ -27,6 +28,9 @@ export default {
             type : String
         }
     },
+    mixins: [
+        notificacaoMixin
+    ],
     mounted () {
         if(this.id) {
             const projetoEditando = this.store.state.projetos.find(proj => proj.id == this.id);
@@ -53,16 +57,14 @@ export default {
                 this.store.commit(ADICIONAR_PROJETO, this.nomeDoProjeto);
             }
             
+            // notificacaoMixin.methods.notificar
+            this.notificar(TipoNotificacao.SUCCESS, 'Pronto', 'Projeto '+this.nomeDoProjeto+' salvo!');
+
             this.nomeDoProjeto = '';
-            
-            this.store.commit(NOTIFICAR, {
-                titulo: 'Novo projeto adicionado',
-                texto : 'Pronto, projeto disponível',
-                tipo: TipoNotificacao.SUCCESS
-            });
 
             this.$router.push('/projetos');
-        }
+        },
+       
     },
     setup() {
         const store = useStore()

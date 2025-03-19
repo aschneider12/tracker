@@ -8,7 +8,7 @@
                 <CronometroTarefa :tempoEmSegundos="tarefa.duracaoEmSegundos"/>
             </div>
             <div class="column is-4">
-                {{ tarefa.projeto.nome }}
+                {{ tarefa.projeto?.nome || 'N/D'  }}
             </div>
         </div>
     </BoxTarefa>
