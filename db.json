@@ -1,0 +1,39 @@
+{
+  "projetos": [
+    {
+      "id": "1",
+      "nome": "Alura Tracker 3.0"
+    },
+    {
+      "id": "2",
+      "nome": "ByteBank 2.0"
+    },
+    {
+      "id": "3",
+      "nome": "CandyBay 1.0"
+    },
+    {
+      "id": "616d",
+      "nome": "tesfsadfsdfsd"
+    }
+  ],
+  "tarefas": [
+    {
+      "id": "1",
+      "texto": "Configuração do ambiente",
+      "projeto": {
+        "id": 1,
+        "nome": "Alura Tracker 3.0"
+      }
+    },
+    {
+      "texto": "Refatoração do vuex 4",
+      "duracaoEmSegundos" : 182,
+      "projeto": {
+        "id": 1,
+        "nome": "Alura Tracker "
+      },
+      "id": "2"
+    }
+  ]
+}

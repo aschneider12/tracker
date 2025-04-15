@@ -18,9 +18,9 @@
 
 import { useStore } from "@/store";
 import { computed } from "vue";
-import { ALTERAR_PROJETO, ADICIONAR_PROJETO } from "@/store/TipoMutations";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { notificacaoMixin } from "@/mixins/notificar";
+import { CADASTRAR_PROJETO, ALTERAR_PROJETO } from "@/store/TipoAcoes";
 
 export default {
     props : {
@@ -47,23 +47,32 @@ export default {
 
             if(this.id) {
                 
-                this.store.commit(ALTERAR_PROJETO, {
+                this.store.dispatch(ALTERAR_PROJETO, {
                     id: this.id,
                     nome: this.nomeDoProjeto
-                });
+                }).then( () => this.sucesso()
+                ).catch( (error) => {
+                    console.log(error)
+                })
 
             } else {
 
-                this.store.commit(ADICIONAR_PROJETO, this.nomeDoProjeto);
+                this.store.dispatch(CADASTRAR_PROJETO, this.nomeDoProjeto).
+                then(() => this.sucesso()
+                ).catch( (error) => {
+                    this.fracasso(error.message)
+                })
             }
             
-            // notificacaoMixin.methods.notificar
-            this.notificar(TipoNotificacao.SUCCESS, 'Pronto', 'Projeto '+this.nomeDoProjeto+' salvo!');
-
-            this.nomeDoProjeto = '';
-
-            this.$router.push('/projetos');
         },
+        sucesso(){
+            this.notificar(TipoNotificacao.SUCCESS, 'Pronto', 'Projeto '+this.nomeDoProjeto+' salvo!');
+                    this.nomeDoProjeto = '';
+                    this.$router.push('/projetos');
+        },
+        fracasso(msg) {
+            this.notificar(TipoNotificacao.ERROR, 'Falha', msg);                   
+        }
        
     },
     setup() {

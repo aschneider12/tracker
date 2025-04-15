@@ -46,16 +46,17 @@
 
 import { useStore } from "@/store";
 import { computed } from "vue";
-import { EXCLUIR_PROJETO } from "@/store/TipoMutations";
+import { ACTION_EXCLUIR_PROJETO, OBTER_PROJETOS } from "@/store/TipoAcoes";
 
 export default {
     methods: {
         excluir (id: string) {
-            this.store.commit(EXCLUIR_PROJETO, id);
+            this.store.dispatch(ACTION_EXCLUIR_PROJETO, id);
         }
     },
     setup() {
         const store = useStore()
+        store.dispatch(OBTER_PROJETOS)
         return {
             store,
             projetos : computed(() => store.state.projetos)

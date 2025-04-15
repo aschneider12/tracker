@@ -14,6 +14,7 @@ import type ITarefa from '@/interfaces/ITarefa';
 import { useStore } from '@/store';
 import { ADICIONAR_TAREFA } from '@/store/TipoMutations';
 import { computed } from 'vue';
+import { ACT_OBTER_TAREFAS } from '@/store/TipoAcoes';
 
 export default {
   components: {
@@ -29,6 +30,7 @@ export default {
   },
   setup() {
         const store = useStore()
+        store.dispatch(ACT_OBTER_TAREFAS)
         return {
             store,
             tarefas : computed( () => store.state.tarefas)
