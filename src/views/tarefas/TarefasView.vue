@@ -1,7 +1,17 @@
 <template>
 
   <FormularioPrincipal :onAoSalvarTarefa="salvarTarefa" />
- 
+
+  <div class="field">
+      <p class="control has-icons-left">
+          <input type="text" class="input" placeholder="digite aqui sua busca localmente, sem api"
+              v-model="filtroPesquisa">
+          <span class="icon is--small is-left">
+              <i class="fas fa-search"></i>
+          </span>
+      </p>
+  </div>
+
   <ListaTarefas :tarefas="tarefas" />
 
 </template>
@@ -12,9 +22,8 @@ import FormularioPrincipal from '@/views/tarefas/FormularioPrincipal.vue';
 import ListaTarefas from '@/views/tarefas/ListaTarefas.vue';
 import type ITarefa from '@/interfaces/ITarefa';
 import { useStore } from '@/store';
-import { ADICIONAR_TAREFA } from '@/store/TipoMutations';
-import { computed } from 'vue';
-import { ACT_OBTER_TAREFAS } from '@/store/TipoAcoes';
+import { computed, ref, watchEffect } from 'vue';
+import { ACT_CADASTRAR_TAREFA, ACT_OBTER_TAREFAS, OBTER_PROJETOS } from '@/store/TipoAcoes';
 
 export default {
   components: {
@@ -24,18 +33,27 @@ export default {
   methods: {
     salvarTarefa(tarefa: ITarefa) {
 
-      console.log('salvandoTarefa no tarefas view', tarefa);
-      this.store.commit(ADICIONAR_TAREFA, tarefa);
+      this.store.dispatch(ACT_CADASTRAR_TAREFA, tarefa);
     }
   },
   setup() {
-        const store = useStore()
-        store.dispatch(ACT_OBTER_TAREFAS)
-        return {
-            store,
-            tarefas : computed( () => store.state.tarefas)
-        }
+        
+    const filtroPesquisa = ref("")
+
+    const store = useStore()
+    store.dispatch(ACT_OBTER_TAREFAS)
+    store.dispatch(OBTER_PROJETOS)
+
+    const tarefas = computed(() => 
+          store.state.tarefa.tarefas.filter(t => !filtroPesquisa.value || t.texto.includes(filtroPesquisa.value))
+    )
+
+    return {
+        store,
+        filtroPesquisa,
+        tarefas 
     }
+  }
 }
 </script>
 

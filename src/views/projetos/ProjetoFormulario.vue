@@ -17,7 +17,7 @@
 <script lang="ts">
 
 import { useStore } from "@/store";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { notificacaoMixin } from "@/mixins/notificar";
 import { CADASTRAR_PROJETO, ALTERAR_PROJETO } from "@/store/TipoAcoes";
@@ -31,17 +31,17 @@ export default {
     mixins: [
         notificacaoMixin
     ],
-    mounted () {
-        if(this.id) {
-            const projetoEditando = this.store.state.projetos.find(proj => proj.id == this.id);
-            this.nomeDoProjeto = projetoEditando.nome
-        }
-    },
-    data() {
-        return {
-            nomeDoProjeto: ''
-        }
-    },
+    // mounted () {
+    //     if(this.id) {
+    //         const projetoEditando = this.store.state.projetos.find(proj => proj.id == this.id);
+    //         this.nomeDoProjeto = projetoEditando.nome
+    //     }
+    // },
+    // data() {
+    //     return {
+    //         nomeDoProjeto: ''
+    //     }
+    // },
     methods: {
         salvar() {
 
@@ -75,11 +75,19 @@ export default {
         }
        
     },
-    setup() {
+    setup(props) {
         const store = useStore()
+        const nomeDoProjeto = ref("")
+
+        if(props.id) {
+            const projetoEditando = store.state.projeto.projetos.find(proj => proj.id == props.id);
+            nomeDoProjeto.value = projetoEditando?.nome || ""
+        }
+
         return {
             store,
-            projetos : computed(() => store.state.projetos)
+            projetos : computed(() => store.state.projeto.projetos),
+            nomeDoProjeto
         }
     }
 
